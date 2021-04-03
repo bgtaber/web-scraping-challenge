@@ -8,6 +8,7 @@ import os
 
 
 def init_browser():
+    # NOTE: Replace the path with your actual path to the chromedriver
     executable_path = {'executable_path': ChromeDriverManager().install()}
     return Browser('chrome', **executable_path, headless=False)
 
@@ -43,7 +44,7 @@ def scrape():
     # Parse out the first paragraph associatd with the tile from results
     news_p=results.find('div',class_='article_teaser_body').text.strip()
 
-
+    # -------------------------------------------------------------------------------
     # JPL Mars Space Images - Featured Image
 
     #Use splinter to browse through page
@@ -62,6 +63,7 @@ def scrape():
     #Find image url and save to variable
     featured_image_url=browser.find_by_css('.BaseImage')['data-src']
 
+    # -------------------------------------------------------------------------------
     # MARS Facts
 
     #Use splinter to browse through page
@@ -88,6 +90,7 @@ def scrape():
     #Convers Mars DF to html table
     mars_facts_html=mars_df.to_html()
 
+    # -------------------------------------------------------------------------------
     # Mars Hemispheres
 
     #Use splinter to browse through page
@@ -99,6 +102,9 @@ def scrape():
 
     # Parse HTML with Beautiful Soup
     soup = BeautifulSoup(html, 'html.parser')
+
+    # Retrieve all elements that contain hemisphere information
+    #Find the image link to access the high resolution image
 
     results = soup.find_all('div', class_='item')
     results
@@ -116,6 +122,7 @@ def scrape():
         count=count+1
         
         html = browser.html
+        # soup_2 = BeautifulSoup(html, 'html.parser')
 
         img_url=browser.find_by_text('Sample')['href']
         
